@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0075: Simplificar la expresión condicional
+dotnet_diagnostic.IDE0075.severity = silent
