@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SistemaVenta.Entity;
 
-namespace SistemaVenta.Entity
+namespace SistemaVenta.AplicacionWeb.Models.ViewModels
 {
-
-    public partial class Venta
+    public class VMVenta
     {
-        public Venta()
-        {
-            DetalleVenta = new HashSet<DetalleVenta>();
-        }
         public int IdVenta { get; set; }
 
         public string? NumeroVenta { get; set; }
 
         public int? IdTipoDocumentoVenta { get; set; }
 
+        public string? TipoDocumentoVenta { get; set; }
+
         public int? IdUsuario { get; set; }
+
+        public string? Usuario { get; set; }
 
         public string? DocumentoCliente { get; set; }
 
@@ -30,10 +28,5 @@ namespace SistemaVenta.Entity
 
         public DateTime? FechaRegistro { get; set; }
 
-        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
-
-        public virtual TipoDocumentoVenta? IdTipoDocumentoVentaNavigation { get; set; }
-
-        public virtual Usuario? IdUsuarioNavigation { get; set; }
-    }
+        public virtual ICollection<VMDetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
 }

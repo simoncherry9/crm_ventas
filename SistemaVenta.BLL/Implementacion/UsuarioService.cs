@@ -185,8 +185,8 @@ namespace SistemaVenta.BLL.Implementacion
 
                 return true;
 
-            } 
-            catch 
+            }
+            catch
             {
                 throw;
             }
@@ -203,7 +203,7 @@ namespace SistemaVenta.BLL.Implementacion
 
         public async Task<Usuario> ObtenerPorId(int IdUsuario)
         {
-            IQueryable <Usuario> query = await _repositorio.Consultar (u => u.IdUsuario == IdUsuario);
+            IQueryable<Usuario> query = await _repositorio.Consultar(u => u.IdUsuario == IdUsuario);
 
             Usuario resultado = query.Include(r => r.IdRolNavigation).FirstOrDefault();
 
@@ -303,14 +303,14 @@ namespace SistemaVenta.BLL.Implementacion
                     }
                 }
 
-                bool correo_enviado = false; 
+                bool correo_enviado = false;
 
                 if (htmlCorreo != "")
                 {
                     correo_enviado = await _correoService.EnviarCorreo(Correo, "Contraseña restablecida", htmlCorreo);
                 }
 
-                if (!correo_enviado) 
+                if (!correo_enviado)
                 {
                     throw new TaskCanceledException("Tenémos problemas. Por favor intentelo de nuevo más tarde");
                 }
@@ -319,7 +319,7 @@ namespace SistemaVenta.BLL.Implementacion
 
                 return respuesta;
 
-            } 
+            }
             catch
             {
                 throw;

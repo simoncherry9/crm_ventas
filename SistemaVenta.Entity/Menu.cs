@@ -1,29 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SistemaVenta.Entity;
-
-public partial class Menu
+namespace SistemaVenta.Entity
 {
-    public int IdMenu { get; set; }
 
-    public string? Descripcion { get; set; }
+    public partial class Menu
+    {
+        public Menu()
+        {
+            InverseIdMenuPadreNavigation = new HashSet<Menu>();
+            RolMenus = new HashSet<RolMenu>();
+        }
 
-    public int? IdMenuPadre { get; set; }
+        public int IdMenu { get; set; }
 
-    public string? Icono { get; set; }
+        public string? Descripcion { get; set; }
 
-    public string? Controlador { get; set; }
+        public int? IdMenuPadre { get; set; }
 
-    public string? PaginaAccion { get; set; }
+        public string? Icono { get; set; }
 
-    public bool? EsActivo { get; set; }
+        public string? Controlador { get; set; }
 
-    public DateTime? FechaRegistro { get; set; }
+        public string? PaginaAccion { get; set; }
 
-    public virtual Menu? IdMenuPadreNavigation { get; set; }
+        public bool? EsActivo { get; set; }
 
-    public virtual ICollection<Menu> InverseIdMenuPadreNavigation { get; set; } = new List<Menu>();
+        public DateTime? FechaRegistro { get; set; }
 
-    public virtual ICollection<RolMenu> RolMenus { get; set; } = new List<RolMenu>();
+        public virtual Menu? IdMenuPadreNavigation { get; set; }
+
+        public virtual ICollection<Menu> InverseIdMenuPadreNavigation { get; set; } = new List<Menu>();
+
+        public virtual ICollection<RolMenu> RolMenus { get; set; } = new List<RolMenu>();
+    }
 }
