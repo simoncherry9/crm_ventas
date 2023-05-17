@@ -12,8 +12,11 @@ let tablaData;
 
 $(document).ready(function () {
 
+    $(".card-body").LoadingOverlay("show");
+
     fetch("/Usuario/ListaRoles")
         .then(response => {
+            $(".card-body").LoadingOverlay("hide");
             return response.ok ? response.json() : Promise.reject(response);
         })
         .then(responseJson => {
