@@ -22,8 +22,8 @@ $(document).ready(function () {
             return response.ok ? response.json() : Promise.reject(response);
         })
         .then(responseJson => {
-            if (responseJson.length > 0) {
-                responseJson.forEach((item) => {
+            if (responseJson.data.length > 0) {
+                responseJson.data.forEach((item) => {
                     $("#cboCategoria").append(
                         $("<option>").val(item.idCategoria).text(item.descripcion)
                     )
@@ -137,8 +137,8 @@ $("#btnGuardar").click(function () {
 
     $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.idUsuario == 0) {
-        fetch("/idProducto/Crear", {
+    if (modelo.idProducto == 0) {
+        fetch("/Producto/Crear", {
             method: "POST",
             body: formData
         })
@@ -175,5 +175,67 @@ $("#btnGuardar").click(function () {
                 }
             })
     }
+
+})
+
+let filaSeleccionada;
+$("#tbdata tbody").on("click", ".btn-editar", function () {
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev();
+    } else {
+        filaSeleccionada = $(this).closest("tr");
+    }
+
+    const data = tablaData.row(filaSeleccionada).data()
+
+    mostrarModal(data)
+})
+
+$("#tbdata tbody").on("click", ".btn-eliminar", function () {
+
+    let fila;
+
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev();
+    } else {
+        fila = $(this).closest("tr");
+    }
+
+    const data = tablaData.row(fila).data()
+
+    swal({
+        title: "¿Estás seguro?",
+        text: `Eliminar el producto "${data.descripcion}"`,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Si, eliminar",
+        cancelButtonText: "Volver",
+        closeOnConfirm: false,
+        closeOnCancel: true
+    },
+        function (respuesta) {
+            if (respuesta) {
+                $(".showSweetAlert").LoadingOverlay("show");
+
+                fetch(`/Producto/Eliminar?IdProducto=${data.idProducto}`, {
+                    method: "DELETE",
+                })
+                    .then(response => {
+                        $(".showSweetAlert").LoadingOverlay("hide");
+                        return response.ok ? response.json() : Promise.reject(response);
+                    })
+                    .then(responseJson => {
+                        if (responseJson.estado) {
+                            tablaData.row(fila).remove().draw()
+                            swal("Listo!", "El producto fue eliminado con exito", "success")
+                        } else {
+                            swal("Lo sentimos", responseJson.mensaje, "error")
+                        }
+                    })
+            }
+        }
+
+    )
 
 })
